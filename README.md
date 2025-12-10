@@ -4,7 +4,7 @@
 ## 1. Prerequisites
 
 ### Software Requirements
-- Python ≥ 3.9
+- Python >= 3.9
 - Streamlit
 - FAISS (CPU version)
 - OpenAI Python SDK
@@ -184,9 +184,9 @@ A deliberate design choice in this project is the separation between:
 - **conceptual explanations** (based on general HPC knowledge).
 
 Examples:
-- Comparing two uploaded CUDA implementations → **grounded**
-- Explaining why stencil codes are memory-bound → **conceptual**
-- Diagnosing an unloaded codebase → **explicitly refused or generalized**
+- Comparing two uploaded CUDA implementations - **grounded**
+- Explaining why stencil codes are memory-bound - **conceptual**
+- Diagnosing an unloaded codebase - **explicitly refused or generalized**
 
 This distinction is critical to avoiding hallucinations and is treated as a feature rather than a limitation.
 
