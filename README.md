@@ -1,7 +1,63 @@
 # HPC Lab Copilot  
 **A Retrieval-Augmented Generative AI System for Understanding, Debugging, and Optimizing HPC Code**
 
-## 1. Overview
+## 1. Prerequisites
+
+### Software Requirements
+- Python ≥ 3.9
+- Streamlit
+- FAISS (CPU version)
+- OpenAI Python SDK
+- CUDA Toolkit (only required for generating profiler artifacts)
+- nvprof (legacy CUDA profiler, typically available on HPC clusters)
+
+### Environment Assumptions
+- The Streamlit app runs on a local machine or login node.
+- CUDA binaries and profiling are performed separately on GPU nodes (e.g., via SLURM).
+- All reasoning is grounded strictly in user-provided artifacts.
+
+---
+
+## 2. Setup and Running the Code
+
+### Clone and Environment Setup
+
+```bash
+git clone https://github.com/skaraen/hpc_lab_copilot
+cd hpc_lab_copilot
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Configure OpenAI Access
+
+```bash
+export OPENAI_API_KEY="your_api_key_here"
+```
+
+### Populate the RAG Corpus
+
+Artifacts are organized as follows:
+- data/code_snippets/ : CUDA and C/C++ source files
+- data/logs/          : nvprof outputs and SLURM scripts
+- data/docs/          : HPC and CUDA reference notes
+
+After adding or modifying artifacts, rebuild the index:
+
+```bash
+python -m rag.indexing
+```
+
+### Launch the Application
+
+```bash
+streamlit run app.py
+```
+
+The UI will be accessible at http://localhost:8501
+
+## 3. Overview
 
 This project explores how Generative AI systems can be meaningfully applied to **high-performance computing (HPC)** workflows, where correctness, performance, and reproducibility are critical. Rather than treating large language models as generic code generators, this work frames them as **analysis and reasoning assistants**, grounded in user-provided artifacts such as CUDA code, profiler logs, and job scripts.
 
@@ -13,7 +69,7 @@ The resulting system, **HPC Lab Copilot**, is a Streamlit-based application that
 
 The project is motivated by real HPC development workflows, including CUDA kernels, SLURM batch scripts, and `nvprof` performance traces.
 
-## 2. Motivation and Design Rationale
+## 4. Motivation and Design Rationale
 
 HPC development differs fundamentally from casual programming:
 - Code is tightly coupled to hardware and runtime environments.
@@ -29,9 +85,9 @@ The guiding principles were:
 3. **Separate conceptual knowledge from grounded claims**.
 4. **Favor interpretability over black-box answers**.
 
-## 3. System Components
+## 5. System Components
 
-### 3.1 Frontend (Streamlit)
+### 5.1 Frontend (Streamlit)
 
 The Streamlit UI provides a lightweight but expressive interface with multiple interaction modes:
 - Code and log analysis
@@ -45,7 +101,7 @@ Key UI features include:
 
 The UI is intentionally minimal to keep focus on reasoning rather than presentation.
 
-### 3.2 Language Model Interface
+### 5.2 Language Model Interface
 
 The system uses OpenAI’s text generation and embedding endpoints via a thin abstraction layer. The model is responsible for:
 - Explaining code and logs in human-readable terms
@@ -54,7 +110,7 @@ The system uses OpenAI’s text generation and embedding endpoints via a thin ab
 
 Importantly, the model is **not** trusted to invent missing facts. All prompts explicitly instruct it to defer when evidence is insufficient.
 
-### 3.3 Retrieval-Augmented Generation (RAG)
+### 5.3 Retrieval-Augmented Generation (RAG)
 
 #### Corpus Structure
 
@@ -79,7 +135,7 @@ For each user query:
 
 This allows the system to infer relationships between code, profiler logs, and scripts through semantic similarity rather than hard-coded mappings.
 
-### 3.4 Attention-Style Relevance Scoring
+### 5.4 Attention-Style Relevance Scoring
 
 While internal transformer attention is not exposed, the system approximates **interpretability** by:
 - assigning normalized relevance scores to retrieved chunks,
@@ -87,7 +143,7 @@ While internal transformer attention is not exposed, the system approximates **i
 
 This helps users understand *why* the model focused on certain artifacts and builds trust in the output.
 
-### 3.5 Profiler Integration (nvprof)
+### 5.5 Profiler Integration (nvprof)
 
 The system supports ingestion and analysis of `nvprof` outputs:
 - Kernel timing summaries
@@ -100,7 +156,7 @@ Profiler logs can be:
 
 In both cases, the system avoids over-interpreting metrics that were not collected.
 
-## 4. Workflow
+## 6. Workflow
 
 A typical workflow looks like this:
 
@@ -123,7 +179,7 @@ A typical workflow looks like this:
 6. **User judgment**
    - The user decides how to act on the information, with visibility into evidence and uncertainty.
 
-## 5. Grounded vs Conceptual Reasoning
+## 7. Grounded vs Conceptual Reasoning
 
 A deliberate design choice in this project is the separation between:
 - **grounded analysis** (based on uploaded artifacts), and
@@ -136,7 +192,7 @@ Examples:
 
 This distinction is critical to avoiding hallucinations and is treated as a feature rather than a limitation.
 
-## 6. Improvements Achieved Over Naive LLM Usage
+## 8. Improvements Achieved Over Naive LLM Usage
 
 Compared to pure prompting, this system achieves:
 
@@ -155,7 +211,7 @@ Compared to pure prompting, this system achieves:
 - **Clear failure modes**  
   Low-similarity queries trigger uncertainty instead of fabrication.
 
-## 7. Responsible AI Considerations
+## 9. Responsible AI Considerations
 
 Several Responsible AI principles are enforced by design:
 
@@ -173,7 +229,7 @@ Several Responsible AI principles are enforced by design:
 
 These considerations are particularly important in HPC, where incorrect guidance can have real computational and scientific cost.
 
-## 8. Limitations
+## 10. Limitations
 
 - Retrieval quality depends on corpus quality and chunking strategy.
 - Semantic similarity is an implicit, not explicit, linkage mechanism.
@@ -182,7 +238,7 @@ These considerations are particularly important in HPC, where incorrect guidance
 
 These limitations are explicitly acknowledged in both prompts and UI behavior.
 
-## 9. Future Work
+## 11. Future Work
 
 Several natural extensions emerge from this project:
 
@@ -204,7 +260,7 @@ Several natural extensions emerge from this project:
 6. **Evaluation framework**
    - Quantitative comparison of grounded vs ungrounded responses.
 
-## 10. Conclusion
+## 12. Conclusion
 
 This project demonstrates that Generative AI becomes significantly more useful for HPC tasks when treated as a **grounded reasoning system** rather than a standalone code generator. By integrating retrieval, interpretability, and explicit uncertainty handling, HPC Lab Copilot moves toward a model of AI assistance that is both practical and responsible in high-stakes technical domains.
 
