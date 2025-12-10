@@ -21,7 +21,7 @@
 ### Clone and Environment Setup
 
 ```bash
-git clone https://github.com/skaraen/hpc_lab_copilot
+git clone https://github.com/skaraen/hpc_lab_copilot.git
 cd hpc_lab_copilot
 python -m venv venv
 source venv/bin/activate
