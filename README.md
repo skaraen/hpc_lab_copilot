@@ -16,8 +16,6 @@
 - CUDA binaries and profiling are performed separately on GPU nodes (e.g., via SLURM).
 - All reasoning is grounded strictly in user-provided artifacts.
 
----
-
 ## 2. Setup and Running the Code
 
 ### Clone and Environment Setup
