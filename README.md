@@ -1,6 +1,8 @@
 # HPC Lab Copilot  
 **A Retrieval-Augmented Generative AI System for Understanding, Debugging, and Optimizing HPC Code**
 
+### Demo: https://youtu.be/8aHZzRJEbWc
+
 ## 1. Prerequisites
 
 ### Software Requirements
