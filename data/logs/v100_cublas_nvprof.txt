@@ -1,0 +1,55 @@
+==3814044== NVPROF is profiling process 3814044, command: ./v100_cublas 256 128 0.1 500 512 256
+==3814044== Profiling application: ./v100_cublas 256 128 0.1 500 512 256
+==3814044== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   46.06%  1.06521s      7120  149.61us  1.0880us  22.176ms  [CUDA memcpy HtoD]
+                    8.28%  191.40ms      7000  27.342us  26.623us  33.600us  volta_sgemm_32x128_nn
+                    7.95%  183.94ms      5000  36.787us  36.064us  41.728us  volta_sgemm_32x32_sliced1x4_tn
+                    4.38%  101.41ms     19000  5.3370us  3.7750us  11.744us  void splitKreduce_kernel<int=32, int=16, int, float, float, float, float, bool=1, bool=0, bool=0>(cublasSplitKParams<float>, float const *, float const *, float*, float const *, float const *, float const *, float const *, float*, void*, long, float*, int*)
+                    3.41%  78.933ms     21000  3.7580us  3.3270us  8.6080us  matrix_add_kernel(float*, float*, float*, int, int)
+                    3.23%  74.600ms      7000  10.657us  9.9200us  14.944us  volta_sgemm_128x32_nn
+                    2.63%  60.807ms     15000  4.0530us  3.3590us  7.3600us  update_biases_kernel(float*, float*, int, int, float, int)
+                    2.51%  57.960ms     15000  3.8630us  3.3280us  8.0000us  update_weights_kernel(float*, float*, int, int, float, int)
+                    2.50%  57.780ms      5000  11.555us  11.008us  18.752us  loss_kernel(float*, float*, int*, int, int)
+                    2.48%  57.292ms      5000  11.458us  11.135us  13.728us  volta_sgemm_128x32_tn
+                    2.38%  55.084ms      5000  11.016us  10.176us  15.360us  volta_sgemm_64x32_sliced1x4_nt
+                    2.26%  52.306ms     14000  3.7360us  3.4230us  7.6480us  relu_kernel(float*, int, int)
+                    2.06%  47.592ms      5000  9.5180us  9.2160us  13.664us  void gemmSN_TN_kernel<float, int=128, int=16, int=2, int=4, int=10, int=11, bool=0, cublasGemvTensorStridedBatched<float const >, cublasGemvTensorStridedBatched<float const >, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<float const , cublasGemvTensorStridedBatched<float const >, cublasGemvTensorStridedBatched<float const >, float>)
+                    1.94%  44.756ms      7000  6.3930us  6.0480us  13.504us  void gemmSN_NN_kernel<float, int=256, int=4, int=2, int=8, int=5, int=4, bool=0, cublasGemvTensorStridedBatched<float const >, cublasGemvTensorStridedBatched<float const >, cublasGemvTensorStridedBatched<float>>(cublasGemmSmallNParams<float const , cublasGemvTensorStridedBatched<float const >, cublasGemvTensorStridedBatched<float const >, float>)
+                    1.73%  39.924ms     10000  3.9920us  3.4870us  7.8080us  sgd_relu_kernel(float*, float*, float*, float*, int, int)
+                    1.61%  37.177ms      5000  7.4350us  7.0720us  10.400us  volta_sgemm_128x32_nt
+                    1.36%  31.417ms      7000  4.4880us  4.4150us  8.0320us  softmax_kernel(float*, int, int)
+                    0.81%  18.789ms      5000  3.7570us  3.4240us  4.1920us  matrix_copy_kernel(float*, float*, int, int)
+                    0.76%  17.496ms      5000  3.4990us  3.3910us  6.8480us  matrix_difference_kernel(float*, float*, float*, int, int)
+                    0.75%  17.269ms      5000  3.4530us  3.3910us  5.2490us  reset_kernel(float*, int, int)
+                    0.74%  17.225ms      5000  3.4450us  3.3600us  3.8720us  result_kernel(float*, int*, int, int)
+                    0.19%  4.4706ms      2050  2.1800us  1.4720us  2.7200us  [CUDA memcpy DtoH]
+      API calls:   50.07%  2.52676s      9170  275.55us  6.3580us  28.623ms  cudaMemcpy
+                   26.98%  1.36167s    172000  7.9160us  3.1400us  26.105ms  cudaLaunchKernel
+                   14.14%  713.44ms        30  23.781ms  2.7880us  459.35ms  cudaFree
+                    2.92%  147.41ms         4  36.852ms     563ns  147.41ms  cudaEventCreate
+                    2.24%  113.10ms     56000  2.0190us     350ns  28.462ms  cudaOccupancyMaxActiveBlocksPerMultiprocessorWithFlags
+                    1.63%  82.300ms     76000  1.0820us     256ns  38.822ms  cudaStreamGetCaptureInfo
+                    0.83%  41.807ms     19200  2.1770us     625ns  621.21us  cudaEventRecord
+                    0.69%  34.961ms     19000  1.8400us     523ns  611.71us  cudaEventQuery
+                    0.32%  16.291ms     65000     250ns     127ns  625.75us  cudaGetLastError
+                    0.11%  5.5978ms      1005  5.5690us     922ns  45.256us  cudaDeviceSynchronize
+                    0.02%  1.0619ms        29  36.617us  2.1390us  272.46us  cudaMalloc
+                    0.01%  638.80us       297  2.1500us     111ns  98.718us  cuDeviceGetAttribute
+                    0.01%  423.87us       100  4.2380us  3.7720us  5.4270us  cudaEventSynchronize
+                    0.00%  237.58us       100  2.3750us  1.7470us  11.468us  cudaEventElapsedTime
+                    0.00%  183.05us       746     245ns     120ns  2.3970us  cuGetProcAddress
+                    0.00%  61.273us         5  12.254us     151ns  60.333us  cuDeviceGetCount
+                    0.00%  58.726us         3  19.575us  12.407us  26.875us  cuDeviceGetName
+                    0.00%  14.692us        18     816ns     286ns  6.4130us  cudaEventDestroy
+                    0.00%  13.122us        18     729ns     360ns  5.7380us  cudaEventCreateWithFlags
+                    0.00%  7.9660us         3  2.6550us     357ns  4.4430us  cudaGetDevice
+                    0.00%  6.7180us        14     479ns     233ns  2.1390us  cudaDeviceGetAttribute
+                    0.00%  5.9040us         1  5.9040us  5.9040us  5.9040us  cuDeviceGetPCIBusId
+                    0.00%  4.8460us         2  2.4230us  2.4130us  2.4330us  cuInit
+                    0.00%  4.5240us         1  4.5240us  4.5240us  4.5240us  cudaGetSymbolAddress
+                    0.00%  1.8460us         3     615ns     492ns     733ns  cuDeviceTotalMem
+                    0.00%  1.2140us         4     303ns     167ns     538ns  cuDeviceGet
+                    0.00%     777ns         3     259ns     209ns     328ns  cuDeviceGetUuid
+                    0.00%     382ns         2     191ns     190ns     192ns  cuDriverGetVersion
+                    0.00%     197ns         1     197ns     197ns     197ns  cuModuleGetLoadingMode

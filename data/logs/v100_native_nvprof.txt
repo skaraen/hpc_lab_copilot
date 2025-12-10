@@ -1,0 +1,37 @@
+==3813204== NVPROF is profiling process 3813204, command: ./v100 256 128 0.1 500 512 256
+==3813204== Profiling application: ./v100 256 128 0.1 500 512 256
+==3813204== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   46.88%  2.57219s     15000  171.48us  47.103us  404.19us  matrix_multiply_transpose2_kernel(float*, float*, float*, int, int, int)
+                   23.74%  1.30267s     21000  62.031us  7.5200us  179.33us  matrix_multiply_kernel(float*, float*, float*, int, int, int)
+                   19.52%  1.07119s      7120  150.45us  1.0550us  27.175ms  [CUDA memcpy HtoD]
+                    2.52%  138.16ms     10000  13.816us  4.4160us  25.920us  matrix_multiply_transpose1_kernel(float*, float*, float*, int, int, int)
+                    1.25%  68.520ms     21000  3.2620us  3.0710us  5.2160us  matrix_add_kernel(float*, float*, float*, int, int)
+                    0.97%  53.057ms     15000  3.5370us  3.0710us  4.8000us  update_biases_kernel(float*, float*, int, int, float, int)
+                    0.96%  52.559ms      5000  10.511us  10.016us  16.992us  loss_kernel(float*, float*, int*, int, int)
+                    0.93%  50.909ms     15000  3.3930us  3.0400us  5.3430us  update_weights_kernel(float*, float*, int, int, float, int)
+                    0.84%  46.304ms     14000  3.3070us  3.1350us  4.0960us  relu_kernel(float*, int, int)
+                    0.64%  35.146ms     10000  3.5140us  3.1670us  8.5440us  sgd_relu_kernel(float*, float*, float*, float*, int, int)
+                    0.52%  28.585ms      7000  4.0830us  3.9990us  4.8000us  softmax_kernel(float*, int, int)
+                    0.29%  15.869ms      5000  3.1730us  3.1030us  3.8400us  matrix_difference_kernel(float*, float*, float*, int, int)
+                    0.29%  15.851ms      5000  3.1700us  3.1040us  3.7120us  matrix_copy_kernel(float*, float*, int, int)
+                    0.29%  15.847ms      5000  3.1690us  3.1030us  3.7760us  reset_kernel(float*, int, int)
+                    0.29%  15.771ms      5000  3.1540us  3.0720us  3.8080us  result_kernel(float*, int*, int, int)
+                    0.08%  4.2737ms      2050  2.0840us  1.4080us  2.5920us  [CUDA memcpy DtoH]
+      API calls:   76.61%  2.84334s      9170  310.07us  5.3270us  29.376ms  cudaMemcpy
+                   19.42%  720.79ms    153000  4.7110us  2.7480us  22.041ms  cudaLaunchKernel
+                    3.75%  139.31ms         4  34.827ms     533ns  139.31ms  cudaEventCreate
+                    0.12%  4.4101ms      1001  4.4050us  1.9600us  26.501us  cudaDeviceSynchronize
+                    0.03%  1.2487ms       200  6.2430us  4.2180us  14.657us  cudaEventRecord
+                    0.02%  754.54us        26  29.020us  2.1480us  268.36us  cudaMalloc
+                    0.02%  595.64us        25  23.825us  1.4950us  241.85us  cudaFree
+                    0.01%  372.59us       100  3.7250us  2.8110us  9.8590us  cudaEventSynchronize
+                    0.01%  232.14us       100  2.3210us  1.6740us  4.3430us  cudaEventElapsedTime
+                    0.01%  216.13us       101  2.1390us     116ns  98.996us  cuDeviceGetAttribute
+                    0.00%  21.077us         1  21.077us  21.077us  21.077us  cuDeviceGetName
+                    0.00%  7.0930us         1  7.0930us  7.0930us  7.0930us  cuDeviceGetPCIBusId
+                    0.00%  1.4880us         3     496ns     169ns  1.1350us  cuDeviceGetCount
+                    0.00%     557ns         2     278ns     126ns     431ns  cuDeviceGet
+                    0.00%     451ns         1     451ns     451ns     451ns  cuDeviceTotalMem
+                    0.00%     285ns         1     285ns     285ns     285ns  cuModuleGetLoadingMode
+                    0.00%     185ns         1     185ns     185ns     185ns  cuDeviceGetUuid
